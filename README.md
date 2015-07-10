@@ -24,7 +24,7 @@ An example output file is supplied in the file final_output.zip. You can extract
 ```cat final_out.txt | grep <stock_name>```
 
 
-###ANOTHER ALTERNATIVE APPROACH
+###ANOTHER ALTERNATIVE APPROACH (Using MapReduce)
 
 A possibly more efficient approach could be the use of Hadoop or MapReduce. However, since the sharding of files could mean that entries for the same order go to different workers, we would need to do two MapReduces sequentially. The first Map could map each trade message to a <orderRef, message> key value pair. This would allow each record for a particular order reference to go to the same reduce worker. Once we get to the reduce worker, we can iterate through the messages in time sorted order and output <stockName, timeStamp, volume, price> with stockName as the key.
 
