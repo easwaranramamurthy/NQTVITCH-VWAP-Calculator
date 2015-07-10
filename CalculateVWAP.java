@@ -110,7 +110,8 @@ public class CalculateVWAP {
           // writing the VWAP scores to standard output along with other
           // details.
           out.write(stockName + "\t" + price + "\t" + volume + "\t" + cumVol
-              + "\t" + volume * price + "\t" + cumVolPrice / cumVol + "\n");
+              + "\t" + volume * price + "\t" + cumVolPrice + "\t" + cumVolPrice
+              / cumVol + "\n");
           writtenLines++;
           activeOrders.remove(orderRef);
         }
@@ -143,7 +144,8 @@ public class CalculateVWAP {
           // writing the VWAP scores to standard output along with other
           // details.
           out.write(stockName + "\t" + price + "\t" + volume + "\t" + cumVol
-              + "\t" + volume * price + "\t" + cumVolPrice / cumVol + "\n");
+              + "\t" + volume * price + "\t" + cumVolPrice + "\t" + cumVolPrice
+              / cumVol + "\n");
           writtenLines++;
           activeOrders.remove(orderRef);
         }
@@ -182,13 +184,13 @@ public class CalculateVWAP {
           String stockName = Util.getString(currLine, 24, 32);
           double price = Util.getDouble(currLine, 32, 36);
           int volume = Util.getInt(currLine, 20, 24);
-          
-          //do not update if volume is 0
+
+          // do not update if volume is 0
           if (volume == 0) {
             break;
           }
-          
-          //updating cumulative quantities
+
+          // updating cumulative quantities
           if (!cumulativeVolumePrice.containsKey(stockName)) {
             cumulativeVolumePrice.put(stockName, 0.0);
             cumulativeVolume.put(stockName, 0);
@@ -200,10 +202,11 @@ public class CalculateVWAP {
 
           double cumVolPrice = cumulativeVolumePrice.get(stockName);
           int cumVol = cumulativeVolume.get(stockName);
-          
-          //writing VWAP along with other quantities to standard output.
+
+          // writing VWAP along with other quantities to standard output.
           out.write(stockName + "\t" + price + "\t" + volume + "\t" + cumVol
-              + "\t" + volume * price + "\t" + cumVolPrice / cumVol + "\n");
+              + "\t" + volume * price + "\t" + cumVolPrice + "\t" + cumVolPrice
+              / cumVol + "\n");
           writtenLines++;
         }
         break;
@@ -213,13 +216,13 @@ public class CalculateVWAP {
         String stockName = Util.getString(currLine, 19, 27);
         double price = Util.getDouble(currLine, 27, 31);
         int volume = Util.getInt(currLine, 11, 19);
-        
+
         // do not update if volume is 0
         if (volume == 0) {
           break;
         }
-        
-        //updating cumulative quantities
+
+        // updating cumulative quantities
         if (!cumulativeVolumePrice.containsKey(stockName)) {
           cumulativeVolumePrice.put(stockName, 0.0);
           cumulativeVolume.put(stockName, 0);
@@ -231,16 +234,18 @@ public class CalculateVWAP {
 
         double cumVolPrice = cumulativeVolumePrice.get(stockName);
         int cumVol = cumulativeVolume.get(stockName);
-        
-        //writing VWAP scores to standard out along with other quantities.
+
+        // writing VWAP scores to standard out along with other quantities.
         out.write(stockName + "\t" + price + "\t" + volume + "\t" + cumVol
-            + "\t" + volume * price + "\t" + cumVolPrice / cumVol + "\n");
+            + "\t" + volume * price + "\t" + cumVolPrice + "\t" + cumVolPrice
+            / cumVol + "\n");
         writtenLines++;
         break;
       }
       }
-      
-      //flushing the output at regular intervals so that the Unix sort can run parallely
+
+      // flushing the output at regular intervals so that the Unix sort can run
+      // parallely
       if (writtenLines % maxLines == 0) {
         out.flush();
       }
